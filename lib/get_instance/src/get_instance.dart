@@ -35,6 +35,8 @@ class GetInstance {
 
   static get publicKeys => _singl;
 
+  static get publicKeys => _singl;
+
   /// Holds a reference to every registered callback when using
   /// `Get.lazyPut()`
   // static final Map<String, _Lazy> _factory = {};
@@ -228,6 +230,17 @@ class GetInstance {
   }
 
   _InstanceBuilderFactory? _getDependency<S>({String? tag, String? key}) {
+    final newKey = key ?? _getKey(S, tag);
+
+    if (!_singl.containsKey(newKey)) {
+      Get.log('Instance "$newKey" is not registered.', isError: true);
+      return null;
+    } else {
+      return _singl[newKey];
+    }
+  }
+
+  _InstanceBuilderFactory? getDependencyV2<S>({String? tag, String? key}) {
     final newKey = key ?? _getKey(S, tag);
 
     if (!_singl.containsKey(newKey)) {
