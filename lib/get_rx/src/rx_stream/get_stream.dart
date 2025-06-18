@@ -28,7 +28,7 @@ class GetStream<T> {
   }
 
   FutureOr<void> addSubscription(LightSubscription<T> subs) async {
-    if (!(_isBusy!=null && _isBusy))) {
+    if (!(_isBusy!=null && _isBusy)) {
       return _onData!.add(subs);
     } else {
       await Future.delayed(Duration.zero);
