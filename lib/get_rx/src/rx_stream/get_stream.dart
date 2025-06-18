@@ -19,16 +19,18 @@ class GetStream<T> {
   bool? _isBusy = false;
 
   FutureOr<bool?> removeSubscription(LightSubscription<T> subs) async {
-    if (!(_isBusy!=null && _isBusy!)) {
-      return _onData!.remove(subs);
-    } else {
-      await Future.delayed(Duration.zero);
-      return _onData?.remove(subs);
-    }
+    try {
+      if (!_isBusy!) {
+        return _onData!.remove(subs);
+      } else {
+        await Future.delayed(Duration.zero);
+        return _onData?.remove(subs);
+      }
+    } catch (e) {}
   }
 
   FutureOr<void> addSubscription(LightSubscription<T> subs) async {
-    if (!(_isBusy!=null && _isBusy!)) {
+    if (!(_isBusy != null && _isBusy!)) {
       return _onData!.add(subs);
     } else {
       await Future.delayed(Duration.zero);
@@ -129,14 +131,12 @@ class GetStream<T> {
     return subs;
   }
 
-  Stream<T> get stream =>
-      GetStreamTransformation(addSubscription, removeSubscription);
+  Stream<T> get stream => GetStreamTransformation(addSubscription, removeSubscription);
 }
 
 class LightSubscription<T> extends StreamSubscription<T> {
   final RemoveSubscription<T> _removeSubscription;
-  LightSubscription(this._removeSubscription,
-      {this.onPause, this.onResume, this.onCancel});
+  LightSubscription(this._removeSubscription, {this.onPause, this.onResume, this.onCancel});
   final void Function()? onPause;
   final void Function()? onResume;
   final FutureOr<void> Function()? onCancel;
@@ -203,7 +203,6 @@ class GetStreamTransformation<T> extends Stream<T> {
   }
 }
 
-typedef RemoveSubscription<T> = FutureOr<bool?> Function(
-    LightSubscription<T> subs);
+typedef RemoveSubscription<T> = FutureOr<bool?> Function(LightSubscription<T> subs);
 
 typedef AddSubscription<T> = FutureOr<void> Function(LightSubscription<T> subs);

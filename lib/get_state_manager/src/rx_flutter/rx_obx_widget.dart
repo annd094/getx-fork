@@ -46,16 +46,13 @@ class ObxState extends State<ObxWidget> {
 
   @override
   void dispose() {
-    try {
-      subs.cancel();
-      _observer.close();
-      super.dispose();
-    } catch(e) {}
+    subs.cancel();
+    _observer.close();
+    super.dispose();
   }
 
   @override
-  Widget build(BuildContext context) =>
-      RxInterface.notifyChildren(_observer, widget.build);
+  Widget build(BuildContext context) => RxInterface.notifyChildren(_observer, widget.build);
 }
 
 /// The simplest reactive widget in GetX.
