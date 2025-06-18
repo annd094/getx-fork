@@ -46,11 +46,11 @@ class ObxState extends State<ObxWidget> {
 
   @override
   void dispose() {
-    try{
+    try {
       subs.cancel();
-    _observer.close();
-    }catch(e){}
-    super.dispose();
+      _observer.close();
+      super.dispose();
+    } catch(e) {}
   }
 
   @override
