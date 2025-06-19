@@ -23,6 +23,8 @@ class RouterReportManager<T> {
 
   static Route? _current;
 
+  static get currentRoute => _current;
+
   // ignore: use_setters_to_change_properties
   static void reportCurrentRoute(Route newRoute) {
     _current = newRoute;
